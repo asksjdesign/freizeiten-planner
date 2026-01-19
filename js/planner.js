@@ -132,6 +132,7 @@ const Planner = {
       ${camp.veranstaltungsort_adresse ? `<p><span class="label">Address:</span> ${camp.veranstaltungsort_adresse}</p>` : ''}
       <p><span class="label">Age:</span> ${camp.alter_zielgruppe}</p>
       <p><span class="label">Price:</span> ${camp.kosten ? camp.kosten.toFixed(2) + ' EUR' : 'TBD'}</p>
+      ${camp.kosten_fruehbucher ? `<p><span class="label">Early Bird:</span> ${camp.kosten_fruehbucher.toFixed(2)} EUR ${camp.fruehbucher_bis ? `(until ${this.formatDate(camp.fruehbucher_bis)})` : ''} ${this.isEarlyBirdActive(camp) ? '<span class="early-bird-active">✓ Active</span>' : '<span class="early-bird-expired">Expired</span>'}</p>` : ''}
       ${camp.kosten_geschwister ? `<p><span class="label">Sibling Price:</span> ${camp.kosten_geschwister.toFixed(2)} EUR</p>` : ''}
       ${camp.kosten_notiz ? `<p><span class="label">Note:</span> ${camp.kosten_notiz}</p>` : ''}
       ${camp.beschreibung ? `<p><span class="label">Description:</span> ${camp.beschreibung}</p>` : ''}
@@ -178,6 +179,33 @@ const Planner = {
   formatDate(dateStr) {
     const date = new Date(dateStr);
     return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+  },
+
+  isEarlyBirdActive(camp) {
+    if (!camp.kosten_fruehbucher || !camp.fruehbucher_bis) return false;
+    const deadline = new Date(camp.fruehbucher_bis);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return today <= deadline;
+  },
+
+  getEffectivePrice(camp) {
+    if (camp.kosten === null || camp.kosten === undefined) return null;
+    if (this.isEarlyBirdActive(camp) && camp.kosten_fruehbucher) {
+      return camp.kosten_fruehbucher;
+    }
+    return camp.kosten;
+  },
+
+  getEffectiveSiblingPrice(camp) {
+    if (!camp.kosten_geschwister) return this.getEffectivePrice(camp);
+    // If early bird is active, calculate proportional sibling discount
+    if (this.isEarlyBirdActive(camp) && camp.kosten_fruehbucher) {
+      // Apply same percentage reduction to sibling price
+      const regularRatio = camp.kosten_geschwister / camp.kosten;
+      return camp.kosten_fruehbucher * regularRatio;
+    }
+    return camp.kosten_geschwister;
   },
 
   updateUI() {
@@ -228,31 +256,42 @@ const Planner = {
 
     this.selections.forEach((personIds, campId) => {
       const camp = Calendar.camps.find(c => c.id === campId);
-      // Skip if camp not found or has no price (null/undefined, but allow 0)
-      if (!camp || camp.kosten === null || camp.kosten === undefined) return;
+      const effectivePrice = this.getEffectivePrice(camp);
+      // Skip if camp not found or has no price
+      if (!camp || effectivePrice === null) return;
 
       const peopleCount = personIds.size;
       if (peopleCount === 0) return;
 
-      // First person pays full price
-      let campCost = camp.kosten;
+      const isEarlyBird = this.isEarlyBirdActive(camp);
+      const effectiveSiblingPrice = this.getEffectiveSiblingPrice(camp);
+      const hasSiblingPrice = camp.kosten_geschwister && peopleCount > 1;
+
+      // First person pays effective price (early bird or regular)
+      let campCost = effectivePrice;
 
       // Additional people pay sibling price if available
-      if (peopleCount > 1 && camp.kosten_geschwister) {
-        campCost += camp.kosten_geschwister * (peopleCount - 1);
+      if (hasSiblingPrice) {
+        campCost += effectiveSiblingPrice * (peopleCount - 1);
+        let detail = `1 x ${effectivePrice.toFixed(2)} + ${peopleCount - 1} x ${effectiveSiblingPrice.toFixed(2)} (sibling)`;
+        if (isEarlyBird) detail += ' [Early Bird]';
         breakdown.push({
           camp: camp.name,
           cost: campCost,
-          detail: `1 x ${camp.kosten.toFixed(2)} + ${peopleCount - 1} x ${camp.kosten_geschwister.toFixed(2)} (sibling)`,
-          hasSiblingDiscount: true
+          detail,
+          hasSiblingDiscount: true,
+          hasEarlyBird: isEarlyBird
         });
       } else {
-        campCost = camp.kosten * peopleCount;
+        campCost = effectivePrice * peopleCount;
+        let detail = `${peopleCount} x ${effectivePrice.toFixed(2)}`;
+        if (isEarlyBird) detail += ' [Early Bird]';
         breakdown.push({
           camp: camp.name,
           cost: campCost,
-          detail: `${peopleCount} x ${camp.kosten.toFixed(2)}`,
-          hasSiblingDiscount: false
+          detail,
+          hasSiblingDiscount: false,
+          hasEarlyBird: isEarlyBird
         });
       }
 
@@ -285,7 +324,7 @@ const Planner = {
     }
 
     let html = breakdown.map(item => `
-      <div class="cost-line ${item.hasSiblingDiscount ? 'sibling-discount' : ''}">
+      <div class="cost-line ${item.hasSiblingDiscount ? 'sibling-discount' : ''} ${item.hasEarlyBird ? 'early-bird' : ''}">
         <span>${item.camp}</span>
         <span>${item.cost.toFixed(2)} EUR</span>
       </div>

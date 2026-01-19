@@ -188,6 +188,22 @@ nav {
   color: var(--pico-ins-color);
 }
 
+.cost-line.early-bird {
+  background: rgba(46, 204, 113, 0.1);
+}
+
+/* Early Bird Indicators */
+.early-bird-active {
+  color: #27ae60;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.early-bird-expired {
+  color: var(--pico-muted-color);
+  font-size: 0.8em;
+}
+
 .total-cost {
   font-size: 1.25rem;
   text-align: right;
