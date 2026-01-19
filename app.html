@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
   <link rel="stylesheet" href="css/styles.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </head>
 <body>
   <nav class="container-fluid">
@@ -41,8 +43,8 @@
                 <button class="nav-arrow" onclick="Calendar.next()" aria-label="Next month">›</button>
               </div>
               <div class="view-toggle">
-                <button class="view-toggle-btn active" data-view="calendar" onclick="Calendar.showView('calendar')" aria-label="Calendar view">📅</button>
-                <button class="view-toggle-btn" data-view="list" onclick="Calendar.showView('list')" aria-label="List view">☰</button>
+                <button class="view-toggle-btn active" data-view="calendar" onclick="Calendar.showView('calendar')" aria-label="Calendar view"><ion-icon name="calendar-outline"></ion-icon></button>
+                <button class="view-toggle-btn" data-view="list" onclick="Calendar.showView('list')" aria-label="List view"><ion-icon name="list-outline"></ion-icon></button>
               </div>
             </div>
           </div>

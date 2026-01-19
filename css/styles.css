@@ -302,13 +302,17 @@ nav {
   width: 36px !important;
   height: 36px !important;
   padding: 0 !important;
-  font-size: 1rem;
+  font-size: 1.2rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 9999px;
   transition: all 0.15s ease;
+}
+
+.view-toggle-btn ion-icon {
+  font-size: inherit;
 }
 
 .view-toggle-btn.active {
