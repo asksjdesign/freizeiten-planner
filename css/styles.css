@@ -1,3 +1,34 @@
+/* Grayscale UI overrides */
+:root {
+  --ui-accent: #6b7280;
+  --ui-accent-hover: #4b5563;
+}
+
+/* Override Pico primary color for UI elements */
+button:not(.fc-button):not([class*="fc-"]),
+[type="submit"],
+[type="button"],
+[role="button"] {
+  --pico-primary: var(--ui-accent);
+  --pico-primary-hover: var(--ui-accent-hover);
+  --pico-primary-focus: rgba(107, 114, 128, 0.2);
+}
+
+/* Keep calendar buttons colored */
+.fc button,
+.fc-button {
+  --pico-primary: #3498db;
+}
+
+/* Grayscale nav links */
+nav a:not(:hover) {
+  color: var(--pico-muted-color);
+}
+
+nav a.active {
+  color: var(--pico-color);
+}
+
 /* Language Switcher */
 .lang-switcher {
   display: inline-flex;
@@ -22,14 +53,14 @@
 }
 
 .lang-btn.active {
-  background: var(--pico-primary);
-  border-color: var(--pico-primary);
+  background: var(--ui-accent);
+  border-color: var(--ui-accent);
   color: white;
 }
 
 .lang-btn:hover:not(.active) {
-  border-color: var(--pico-primary);
-  color: var(--pico-primary);
+  border-color: var(--ui-accent);
+  color: var(--ui-accent);
   background: transparent;
 }
 
@@ -218,7 +249,8 @@ nav {
 
 /* Cost Summary */
 .cost-summary {
-  background: var(--pico-primary-focus);
+  background: var(--pico-card-background-color);
+  border: 1px solid var(--pico-muted-border-color);
 }
 
 #cost-breakdown {
