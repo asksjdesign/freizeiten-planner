@@ -150,7 +150,6 @@ const Calendar = {
 
       return `
         <div class="camp-list-card ${sourceClass} ${isSelected ? 'selected' : ''}" onclick="Planner.showCampModal(Calendar.camps.find(c => c.id === ${camp.id}))">
-          <div class="camp-list-color"></div>
           <div class="camp-list-content">
             <div class="camp-list-name">${camp.name}</div>
             <div class="camp-list-dates">${startDate} – ${endDate}</div>

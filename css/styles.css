@@ -3,13 +3,26 @@
   --ui-accent: #6b7280;
   --ui-accent-hover: #4b5563;
   --pico-font-size: 0.9375rem;
+  --app-spacing: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --app-spacing: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  :root {
+    --app-spacing: 5%;
+  }
 }
 
 /* Base font + more breathing room */
 body {
   font-size: 1rem;
-  --pico-spacing: 1.25rem;
-  --pico-block-spacing-vertical: 1.5rem;
+  --pico-spacing: var(--app-spacing);
+  --pico-block-spacing-vertical: var(--app-spacing);
 }
 
 h1 { font-size: 1.875rem; }
@@ -135,8 +148,8 @@ nav a.active {
 .auth-card {
   max-width: 480px;
   margin: 2rem auto;
-  padding: 2.5rem;
-  padding-top: 3.5rem;
+  padding: var(--app-spacing);
+  padding-top: calc(var(--app-spacing) + 2rem);
   position: relative;
 }
 
@@ -227,7 +240,7 @@ nav {
 
 .calendar-container {
   background: var(--pico-card-background-color);
-  padding: 1.5rem;
+  padding: var(--app-spacing);
   border-radius: var(--pico-border-radius);
 }
 
@@ -269,11 +282,12 @@ nav {
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1rem;
+  padding: var(--app-spacing);
   background: var(--pico-background-color);
   border-radius: var(--pico-border-radius);
   cursor: pointer;
   transition: background 0.15s ease;
+  border-left: 4px solid transparent;
 }
 
 .camp-list-card:hover {
@@ -284,23 +298,16 @@ nav {
   box-shadow: 0 0 0 2px var(--pico-primary);
 }
 
-.camp-list-color {
-  width: 4px;
-  height: 40px;
-  border-radius: 2px;
-  flex-shrink: 0;
+.camp-list-card.fc-event-kids-team {
+  border-left-color: rgba(41, 82, 122, 1);
 }
 
-.camp-list-card.fc-event-kids-team .camp-list-color {
-  background: rgba(41, 82, 122, 0.85);
+.camp-list-card.fc-event-neues-leben {
+  border-left-color: rgba(46, 99, 64, 1);
 }
 
-.camp-list-card.fc-event-neues-leben .camp-list-color {
-  background: rgba(46, 99, 64, 0.85);
-}
-
-.camp-list-card.fc-event-schloss-klaus .camp-list-color {
-  background: rgba(88, 62, 111, 0.85);
+.camp-list-card.fc-event-schloss-klaus {
+  border-left-color: rgba(88, 62, 111, 1);
 }
 
 .camp-list-content {
@@ -314,12 +321,10 @@ nav {
 }
 
 .camp-list-dates {
-  font-size: 0.875rem;
   color: var(--pico-muted-color);
 }
 
 .camp-list-source {
-  font-size: 0.75rem;
   color: var(--pico-muted-color);
   text-align: right;
   flex-shrink: 0;
@@ -334,7 +339,7 @@ nav {
 
 .sidebar-section {
   background: var(--pico-card-background-color);
-  padding: 1.5rem;
+  padding: var(--app-spacing);
   border-radius: var(--pico-border-radius);
 }
 
@@ -526,7 +531,7 @@ nav {
 
 .person-card {
   background: var(--pico-card-background-color);
-  padding: 1.5rem 1.75rem;
+  padding: var(--app-spacing);
   border-radius: var(--pico-border-radius);
 }
 
@@ -560,7 +565,7 @@ nav {
 
 .selection-card {
   background: var(--pico-card-background-color);
-  padding: 1.5rem 1.75rem;
+  padding: var(--app-spacing);
   border-radius: var(--pico-border-radius);
 }
 
@@ -722,15 +727,15 @@ nav {
 /* Dialog tweaks */
 dialog article {
   max-width: 500px;
-  padding: 2rem;
+  padding: var(--app-spacing);
 }
 
 dialog article header {
-  padding-bottom: 1rem;
+  padding-bottom: var(--app-spacing);
 }
 
 dialog article footer {
-  padding-top: 1.5rem;
+  padding-top: var(--app-spacing);
 }
 
 /* Expanded Modal */
@@ -739,7 +744,7 @@ dialog article footer {
   width: 90vw;
   max-height: 90vh;
   height: auto;
-  padding: 2.5rem;
+  padding: var(--app-spacing);
 }
 
 .expanded-modal #expanded-content {
@@ -757,7 +762,7 @@ dialog article footer {
 .expanded-camp-card {
   background: var(--pico-background-color);
   border-radius: var(--pico-border-radius);
-  padding: 1.25rem 1.5rem;
+  padding: var(--app-spacing);
   border: 1px solid var(--pico-muted-border-color);
 }
 
