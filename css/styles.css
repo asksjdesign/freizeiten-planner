@@ -450,6 +450,15 @@ nav {
   font-size: 0.8rem;
 }
 
+.fc .fc-daygrid-day-number {
+  color: var(--pico-color);
+  text-decoration: none;
+}
+
+.fc .fc-daygrid-day-number:hover {
+  text-decoration: none;
+}
+
 .fc-event-kids-team {
   background-color: #3498db !important;
   border-color: #2980b9 !important;
