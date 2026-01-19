@@ -2,7 +2,7 @@
 const Calendar = {
   instance: null,
   camps: [],
-  currentView: 'month',
+  currentView: 'calendar',
 
   getSourceClass(source) {
     switch (source) {
@@ -17,15 +17,19 @@ const Calendar = {
     const calendarEl = document.getElementById('calendar');
 
     this.instance = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'dayGridMonth',
+      initialView: 'multiMonth',
       locale: 'de',
       firstDay: 1,
       height: 'auto',
+      multiMonthMaxColumns: 1,
+      multiMonthMinWidth: 300,
+      duration: { months: 12 },
       headerToolbar: {
-        left: 'prev,next today',
+        left: '',
         center: 'title',
         right: ''
       },
+      titleFormat: { year: 'numeric' },
       eventClick: (info) => {
         const camp = this.camps.find(c => c.id === parseInt(info.event.id));
         if (camp) {
@@ -117,7 +121,7 @@ const Calendar = {
       btn.classList.toggle('active', btn.dataset.view === view);
     });
 
-    if (view === 'month') {
+    if (view === 'calendar') {
       calendarEl.style.display = 'block';
       listEl.style.display = 'none';
     } else {
