@@ -68,6 +68,7 @@ button:not(.fc-button):not([class*="fc-"]),
 .fc .fc-list-day th,
 .fc .fc-list-day-cushion {
   background: var(--pico-background-color) !important;
+  border-bottom: 1px solid var(--pico-muted-border-color) !important;
 }
 
 .fc .fc-list-event-time,
