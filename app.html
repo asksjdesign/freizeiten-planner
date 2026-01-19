@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freizeiten Planner</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <nav class="container-fluid">
+    <ul>
+      <li><strong>Freizeiten Planner</strong></li>
+    </ul>
+    <ul>
+      <li><a href="#" class="nav-link active" data-view="planner">Planner</a></li>
+      <li><a href="#" class="nav-link" data-view="people">Children</a></li>
+      <li><a href="#" class="nav-link" data-view="selections">Saved Plans</a></li>
+      <li><span id="user-name"></span></li>
+      <li><a href="#" onclick="Auth.logout()">Logout</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <!-- Planner View -->
+    <section id="view-planner" class="view">
+      <div class="planner-layout">
+        <div class="calendar-container">
+          <div id="calendar"></div>
+        </div>
+        <aside class="planner-sidebar">
+          <div class="sidebar-section">
+            <h3>Select Children</h3>
+            <div id="people-checkboxes" class="people-list">
+              <p class="empty-state">Add children in the Children tab first</p>
+            </div>
+          </div>
+
+          <div class="sidebar-section">
+            <h3>Selected Camps</h3>
+            <div id="selected-camps" class="selected-camps-list">
+              <p class="empty-state">Click on camps in the calendar to select them</p>
+            </div>
+          </div>
+
+          <div class="sidebar-section cost-summary">
+            <h3>Cost Summary</h3>
+            <div id="cost-breakdown"></div>
+            <div class="total-cost">
+              <strong>Total: <span id="total-cost">0.00</span> EUR</strong>
+            </div>
+          </div>
+
+          <div class="sidebar-actions">
+            <button onclick="Planner.saveSelection()" class="primary">Save Plan</button>
+            <button onclick="Planner.clearSelection()" class="secondary outline">Clear</button>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Camp Detail Modal -->
+      <dialog id="camp-modal">
+        <article>
+          <header>
+            <button aria-label="Close" rel="prev" onclick="closeCampModal()"></button>
+            <h3 id="modal-camp-name"></h3>
+          </header>
+          <div id="modal-camp-details"></div>
+          <footer>
+            <div id="modal-camp-selection"></div>
+          </footer>
+        </article>
+      </dialog>
+    </section>
+
+    <!-- People View -->
+    <section id="view-people" class="view" style="display: none;">
+      <header class="view-header">
+        <h2>Manage Children</h2>
+        <button onclick="showAddPersonModal()">Add Child</button>
+      </header>
+
+      <div id="people-list" class="people-cards">
+        <p class="empty-state">No children added yet. Click "Add Child" to get started.</p>
+      </div>
+
+      <!-- Add/Edit Person Modal -->
+      <dialog id="person-modal">
+        <article>
+          <header>
+            <button aria-label="Close" rel="prev" onclick="closePersonModal()"></button>
+            <h3 id="person-modal-title">Add Child</h3>
+          </header>
+          <form id="person-form" onsubmit="handlePersonSubmit(event)">
+            <input type="hidden" id="person-id">
+            <label>
+              Name
+              <input type="text" id="person-name" required placeholder="Child's name">
+            </label>
+            <label>
+              Birthdate
+              <input type="date" id="person-birthdate" required>
+            </label>
+            <footer>
+              <button type="button" class="secondary" onclick="closePersonModal()">Cancel</button>
+              <button type="submit">Save</button>
+            </footer>
+          </form>
+        </article>
+      </dialog>
+    </section>
+
+    <!-- Selections View -->
+    <section id="view-selections" class="view" style="display: none;">
+      <header class="view-header">
+        <h2>Saved Plans</h2>
+      </header>
+
+      <div id="selections-list" class="selections-cards">
+        <p class="empty-state">No saved plans yet. Create a plan in the Planner tab.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/calendar.js"></script>
+  <script src="js/planner.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

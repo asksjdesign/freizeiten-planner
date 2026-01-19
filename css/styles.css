@@ -1,0 +1,378 @@
+/* Auth Card */
+.auth-card {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+.auth-card header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.auth-card h1 {
+  margin-bottom: 0.5rem;
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.error-message {
+  background: var(--pico-del-color);
+  color: white;
+  padding: 1rem;
+  border-radius: var(--pico-border-radius);
+  margin-top: 1rem;
+}
+
+/* Navigation */
+nav {
+  background: var(--pico-card-background-color);
+  padding: 0.5rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+#user-name {
+  color: var(--pico-muted-color);
+}
+
+/* View Headers */
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Planner Layout */
+.planner-layout {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 1.5rem;
+  min-height: calc(100vh - 150px);
+}
+
+@media (max-width: 1024px) {
+  .planner-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .planner-sidebar {
+    order: -1;
+  }
+}
+
+.calendar-container {
+  background: var(--pico-card-background-color);
+  padding: 1rem;
+  border-radius: var(--pico-border-radius);
+}
+
+/* Sidebar */
+.planner-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.sidebar-section {
+  background: var(--pico-card-background-color);
+  padding: 1rem;
+  border-radius: var(--pico-border-radius);
+}
+
+.sidebar-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.sidebar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.sidebar-actions button {
+  flex: 1;
+}
+
+/* People List (checkboxes in planner) */
+.people-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.person-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--pico-background-color);
+  border-radius: var(--pico-border-radius);
+  cursor: pointer;
+}
+
+.person-checkbox:hover {
+  background: var(--pico-primary-focus);
+}
+
+.person-checkbox input {
+  margin: 0;
+}
+
+.person-checkbox .age {
+  margin-left: auto;
+  font-size: 0.875rem;
+  color: var(--pico-muted-color);
+}
+
+/* Selected Camps List */
+.selected-camps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.selected-camp-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--pico-background-color);
+  border-radius: var(--pico-border-radius);
+  font-size: 0.875rem;
+}
+
+.selected-camp-item .camp-name {
+  font-weight: 500;
+}
+
+.selected-camp-item .camp-people {
+  color: var(--pico-muted-color);
+}
+
+.selected-camp-item button {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+}
+
+/* Cost Summary */
+.cost-summary {
+  background: var(--pico-primary-focus);
+}
+
+#cost-breakdown {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--pico-muted-border-color);
+}
+
+.cost-line.sibling-discount {
+  color: var(--pico-ins-color);
+}
+
+.total-cost {
+  font-size: 1.25rem;
+  text-align: right;
+}
+
+/* People Cards */
+.people-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.person-card {
+  background: var(--pico-card-background-color);
+  padding: 1.5rem;
+  border-radius: var(--pico-border-radius);
+}
+
+.person-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+.person-card .birthdate,
+.person-card .age {
+  color: var(--pico-muted-color);
+  font-size: 0.875rem;
+}
+
+.person-card .actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.person-card .actions button {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Selections Cards */
+.selections-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.selection-card {
+  background: var(--pico-card-background-color);
+  padding: 1.5rem;
+  border-radius: var(--pico-border-radius);
+}
+
+.selection-card h4 {
+  margin-bottom: 0.5rem;
+}
+
+.selection-card .meta {
+  color: var(--pico-muted-color);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.selection-card .camps-preview {
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.selection-card .total {
+  font-weight: bold;
+  font-size: 1.125rem;
+}
+
+.selection-card .actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Calendar Customization */
+.fc-event {
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.fc-event-kids-team {
+  background-color: #3498db !important;
+  border-color: #2980b9 !important;
+}
+
+.fc-event-neues-leben {
+  background-color: #27ae60 !important;
+  border-color: #229954 !important;
+}
+
+.fc-event-schloss-klaus {
+  background-color: #9b59b6 !important;
+  border-color: #8e44ad !important;
+}
+
+.fc-event-selected {
+  box-shadow: 0 0 0 3px var(--pico-primary);
+}
+
+/* Camp Modal */
+#modal-camp-details {
+  font-size: 0.9rem;
+}
+
+#modal-camp-details p {
+  margin-bottom: 0.5rem;
+}
+
+#modal-camp-details .label {
+  font-weight: 600;
+  color: var(--pico-muted-color);
+}
+
+#modal-camp-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.camp-person-select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  background: var(--pico-background-color);
+  border-radius: var(--pico-border-radius);
+}
+
+.camp-person-select.ineligible {
+  opacity: 0.5;
+}
+
+.camp-person-select .ineligible-reason {
+  font-size: 0.75rem;
+  color: var(--pico-del-color);
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  color: var(--pico-muted-color);
+  padding: 2rem;
+}
+
+/* Dialog tweaks */
+dialog article {
+  max-width: 500px;
+}
+
+dialog article header {
+  margin-bottom: 1rem;
+}
+
+/* Source Legend */
+.source-legend {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-color.kids-team {
+  background: #3498db;
+}
+
+.legend-color.neues-leben {
+  background: #27ae60;
+}
+
+.legend-color.schloss-klaus {
+  background: #9b59b6;
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Freizeiten Planner - Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <main class="container">
+    <article class="auth-card">
+      <header>
+        <h1>Freizeiten Planner</h1>
+        <p>Plan summer camps for your children</p>
+      </header>
+
+      <div id="login-form">
+        <h2>Login</h2>
+        <form onsubmit="handleLogin(event)">
+          <label>
+            Email
+            <input type="email" id="login-email" required placeholder="your@email.com">
+          </label>
+          <label>
+            Password
+            <input type="password" id="login-password" required placeholder="********">
+          </label>
+          <button type="submit">Login</button>
+        </form>
+        <p class="auth-switch">
+          Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+        </p>
+      </div>
+
+      <div id="signup-form" style="display: none;">
+        <h2>Create Account</h2>
+        <form onsubmit="handleSignup(event)">
+          <label>
+            Name
+            <input type="text" id="signup-name" required placeholder="Your Name">
+          </label>
+          <label>
+            Email
+            <input type="email" id="signup-email" required placeholder="your@email.com">
+          </label>
+          <label>
+            Password
+            <input type="password" id="signup-password" required minlength="6" placeholder="********">
+          </label>
+          <button type="submit">Create Account</button>
+        </form>
+        <p class="auth-switch">
+          Already have an account? <a href="#" onclick="showLogin()">Login</a>
+        </p>
+      </div>
+
+      <div id="auth-error" class="error-message" style="display: none;"></div>
+    </article>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // Check if already logged in
+    if (Auth.isLoggedIn()) {
+      window.location.href = 'app.html';
+    }
+
+    function showLogin() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('signup-form').style.display = 'none';
+      hideError();
+    }
+
+    function showSignup() {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('signup-form').style.display = 'block';
+      hideError();
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById('auth-error');
+      errorEl.textContent = message;
+      errorEl.style.display = 'block';
+    }
+
+    function hideError() {
+      document.getElementById('auth-error').style.display = 'none';
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      hideError();
+
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+
+      try {
+        await Auth.login(email, password);
+        window.location.href = 'app.html';
+      } catch (error) {
+        showError(error.message || 'Login failed');
+      }
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      hideError();
+
+      const name = document.getElementById('signup-name').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+
+      try {
+        await Auth.signup(name, email, password);
+        window.location.href = 'app.html';
+      } catch (error) {
+        showError(error.message || 'Signup failed');
+      }
+    }
+  </script>
+</body>
+</html>
