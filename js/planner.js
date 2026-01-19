@@ -4,6 +4,7 @@ const Planner = {
   selectedPeopleIds: new Set(),
   // Map of campId -> Set of personIds
   selections: new Map(),
+  sortOrder: 'oldest',
 
   async init() {
     await this.loadPeople();
@@ -44,6 +45,11 @@ const Planner = {
     return true;
   },
 
+  setSortOrder(order) {
+    this.sortOrder = order;
+    this.renderPeopleCheckboxes();
+  },
+
   renderPeopleCheckboxes() {
     const container = document.getElementById('people-checkboxes');
 
@@ -52,7 +58,14 @@ const Planner = {
       return;
     }
 
-    container.innerHTML = this.people.map(person => {
+    // Sort people by birthdate
+    const sortedPeople = [...this.people].sort((a, b) => {
+      const dateA = new Date(a.birthdate);
+      const dateB = new Date(b.birthdate);
+      return this.sortOrder === 'oldest' ? dateA - dateB : dateB - dateA;
+    });
+
+    container.innerHTML = sortedPeople.map(person => {
       const age = this.calculateAge(person.birthdate);
       const checked = this.selectedPeopleIds.has(person.id) ? 'checked' : '';
       return `

@@ -167,6 +167,15 @@ nav {
   margin: 0;
 }
 
+.mini-select {
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  font-size: 0.7rem;
+  width: auto;
+  height: auto;
+  line-height: 1.2;
+}
+
 .sidebar-actions {
   display: flex;
   gap: 0.5rem;

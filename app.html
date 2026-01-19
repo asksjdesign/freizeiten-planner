@@ -37,7 +37,13 @@
         </div>
         <aside class="planner-sidebar">
           <div class="sidebar-section">
-            <h3 data-i18n="selectChildren">Select Children</h3>
+            <div class="section-header">
+              <h3 data-i18n="selectChildren">Select Children</h3>
+              <select id="planner-people-sort" class="mini-select" onchange="Planner.setSortOrder(this.value)">
+                <option value="oldest" data-i18n="oldestFirst">Oldest first</option>
+                <option value="youngest" data-i18n="youngestFirst">Youngest first</option>
+              </select>
+            </div>
             <div id="people-checkboxes" class="people-list">
               <p class="empty-state" data-i18n="addChildrenFirst">Add children in the Children tab first</p>
             </div>
@@ -173,6 +179,11 @@
       if (sortSelect) {
         sortSelect.options[0].text = I18n.t('oldestFirst');
         sortSelect.options[1].text = I18n.t('youngestFirst');
+      }
+      const plannerSortSelect = document.getElementById('planner-people-sort');
+      if (plannerSortSelect) {
+        plannerSortSelect.options[0].text = I18n.t('oldestFirst');
+        plannerSortSelect.options[1].text = I18n.t('youngestFirst');
       }
     }
   </script>
