@@ -51,6 +51,34 @@ button:not(.fc-button):not([class*="fc-"]),
   background: transparent !important;
 }
 
+/* Calendar list view - dark theme */
+.fc .fc-list {
+  background: transparent;
+  border-color: var(--pico-muted-border-color);
+}
+
+.fc .fc-list-event:hover td {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.fc .fc-list-day-cushion,
+.fc .fc-list-event td {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.fc .fc-list-day-cushion {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.fc .fc-list-event-time,
+.fc .fc-list-event-title {
+  color: var(--pico-color);
+}
+
+.fc .fc-list-day a {
+  color: var(--pico-primary) !important;
+}
+
 /* Grayscale nav links */
 nav a:not(:hover) {
   color: var(--pico-muted-color);
