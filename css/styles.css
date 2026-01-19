@@ -67,7 +67,7 @@ button:not(.fc-button):not([class*="fc-"]),
 
 .fc .fc-list-day th,
 .fc .fc-list-day-cushion {
-  background: rgba(255, 255, 255, 0.08) !important;
+  background: rgba(30, 35, 42, 1) !important;
 }
 
 .fc .fc-list-event-time,
