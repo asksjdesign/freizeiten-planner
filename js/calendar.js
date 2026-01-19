@@ -19,6 +19,7 @@ const Calendar = {
       initialView: 'dayGridMonth',
       locale: 'de',
       firstDay: 1,
+      height: 'auto',
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
