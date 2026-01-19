@@ -156,6 +156,17 @@ nav {
   font-size: 1rem;
 }
 
+.sidebar-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.sidebar-section .section-header h3 {
+  margin: 0;
+}
+
 .sidebar-actions {
   display: flex;
   gap: 0.5rem;
@@ -464,24 +475,27 @@ nav {
 }
 
 .expand-btn {
-  background: transparent;
-  border: 1px solid var(--pico-muted-border-color);
-  color: var(--pico-muted-color);
-  width: 28px;
-  height: 28px;
-  padding: 0;
-  margin: 0;
-  font-size: 1rem;
+  background: transparent !important;
+  border: 1px solid var(--pico-muted-border-color) !important;
+  color: var(--pico-muted-color) !important;
+  width: 24px !important;
+  height: 24px !important;
+  min-width: 24px;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 0.9rem;
   cursor: pointer;
   border-radius: 4px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .expand-btn:hover {
-  border-color: var(--pico-primary);
-  color: var(--pico-primary);
+  border-color: var(--pico-primary) !important;
+  color: var(--pico-primary) !important;
+  background: transparent !important;
 }
 
 /* Dialog tweaks */
