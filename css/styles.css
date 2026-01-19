@@ -620,26 +620,7 @@ nav {
 
 /* Minimum height for day cells */
 .fc .fc-daygrid-day-frame {
-  min-height: 80px;
-}
-
-/* Multi-month view styling */
-.fc .fc-multimonth {
-  border: none;
-}
-
-.fc .fc-multimonth-month {
-  margin-bottom: 1.5rem;
-}
-
-.fc .fc-multimonth-header {
-  background: transparent;
-}
-
-.fc .fc-multimonth-title {
-  color: var(--pico-color);
-  font-weight: 600;
-  padding: 0.75rem 0;
+  min-height: 100px;
 }
 
 .fc-event-kids-team {

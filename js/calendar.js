@@ -17,19 +17,15 @@ const Calendar = {
     const calendarEl = document.getElementById('calendar');
 
     this.instance = new FullCalendar.Calendar(calendarEl, {
-      initialView: 'multiMonth',
+      initialView: 'dayGridMonth',
       locale: 'de',
       firstDay: 1,
       height: 'auto',
-      multiMonthMaxColumns: 1,
-      multiMonthMinWidth: 300,
-      duration: { months: 12 },
       headerToolbar: {
-        left: '',
+        left: 'prev,next',
         center: 'title',
         right: ''
       },
-      titleFormat: { year: 'numeric' },
       eventClick: (info) => {
         const camp = this.camps.find(c => c.id === parseInt(info.event.id));
         if (camp) {
