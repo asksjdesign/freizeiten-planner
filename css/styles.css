@@ -5,17 +5,17 @@
   --pico-font-size: 0.9375rem;
 }
 
-/* Smaller base font + more breathing room */
+/* Base font + more breathing room */
 body {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   --pico-spacing: 1.25rem;
   --pico-block-spacing-vertical: 1.5rem;
 }
 
-h1 { font-size: 1.75rem; }
+h1 { font-size: 1.875rem; }
 h2 { font-size: 1.5rem; }
-h3 { font-size: 1.125rem; }
-h4 { font-size: 1rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.125rem; }
 
 /* Override Pico primary color for UI elements + pill shape */
 button:not(.fc-button):not([class*="fc-"]),
@@ -176,7 +176,7 @@ nav {
 
 .calendar-container {
   background: var(--pico-card-background-color);
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: var(--pico-border-radius);
 }
 
@@ -189,7 +189,7 @@ nav {
 
 .sidebar-section {
   background: var(--pico-card-background-color);
-  padding: 1.25rem;
+  padding: 1.5rem;
   border-radius: var(--pico-border-radius);
 }
 
@@ -553,6 +553,15 @@ nav {
 /* Dialog tweaks */
 dialog article {
   max-width: 500px;
+  padding: 2rem;
+}
+
+dialog article header {
+  padding-bottom: 1rem;
+}
+
+dialog article footer {
+  padding-top: 1.5rem;
 }
 
 /* Expanded Modal */
@@ -561,11 +570,13 @@ dialog article {
   width: 90vw;
   max-height: 90vh;
   height: auto;
+  padding: 2.5rem;
 }
 
 .expanded-modal #expanded-content {
-  max-height: 65vh;
+  max-height: 60vh;
   overflow-y: auto;
+  padding: 0.5rem 0;
 }
 
 .expanded-camps-grid {
@@ -577,7 +588,7 @@ dialog article {
 .expanded-camp-card {
   background: var(--pico-background-color);
   border-radius: var(--pico-border-radius);
-  padding: 1rem;
+  padding: 1.25rem 1.5rem;
   border: 1px solid var(--pico-muted-border-color);
 }
 
