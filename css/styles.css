@@ -462,18 +462,18 @@ nav {
 }
 
 .fc-event-kids-team {
-  background-color: #5b9bd5 !important;
-  border-color: #4a8bc4 !important;
+  background-color: rgba(91, 155, 213, 0.65) !important;
+  border-color: rgba(91, 155, 213, 0.75) !important;
 }
 
 .fc-event-neues-leben {
-  background-color: #6ab187 !important;
-  border-color: #5a9f77 !important;
+  background-color: rgba(106, 177, 135, 0.65) !important;
+  border-color: rgba(106, 177, 135, 0.75) !important;
 }
 
 .fc-event-schloss-klaus {
-  background-color: #a884c9 !important;
-  border-color: #9674b8 !important;
+  background-color: rgba(168, 132, 201, 0.65) !important;
+  border-color: rgba(168, 132, 201, 0.75) !important;
 }
 
 .fc-event-selected {
