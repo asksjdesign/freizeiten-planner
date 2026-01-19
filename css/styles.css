@@ -289,10 +289,11 @@ nav {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   background: var(--pico-background-color);
   border-radius: var(--pico-border-radius);
   cursor: pointer;
+  width: 100%;
 }
 
 .person-checkbox:hover {
