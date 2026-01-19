@@ -31,7 +31,7 @@ button:not(.fc-button):not([class*="fc-"]),
 /* Keep calendar buttons colored */
 .fc button,
 .fc-button {
-  --pico-primary: #3498db;
+  --pico-primary: #5b9bd5;
 }
 
 /* Grayscale nav links */
@@ -462,18 +462,18 @@ nav {
 }
 
 .fc-event-kids-team {
-  background-color: #3498db !important;
-  border-color: #2980b9 !important;
+  background-color: #5b9bd5 !important;
+  border-color: #4a8bc4 !important;
 }
 
 .fc-event-neues-leben {
-  background-color: #27ae60 !important;
-  border-color: #229954 !important;
+  background-color: #6ab187 !important;
+  border-color: #5a9f77 !important;
 }
 
 .fc-event-schloss-klaus {
-  background-color: #9b59b6 !important;
-  border-color: #8e44ad !important;
+  background-color: #a884c9 !important;
+  border-color: #9674b8 !important;
 }
 
 .fc-event-selected {
@@ -701,13 +701,13 @@ dialog article header {
 }
 
 .legend-color.kids-team {
-  background: #3498db;
+  background: #5b9bd5;
 }
 
 .legend-color.neues-leben {
-  background: #27ae60;
+  background: #6ab187;
 }
 
 .legend-color.schloss-klaus {
-  background: #9b59b6;
+  background: #a884c9;
 }
