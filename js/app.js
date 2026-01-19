@@ -1,5 +1,7 @@
 // Main App Controller
 const App = {
+  peopleSortOrder: 'oldest',
+
   async init() {
     // Check authentication
     if (!Auth.requireAuth()) return;
@@ -75,6 +77,11 @@ const App = {
     }
   },
 
+  sortPeople(order) {
+    this.peopleSortOrder = order;
+    this.renderPeopleCards(Planner.people);
+  },
+
   renderPeopleCards(people) {
     const container = document.getElementById('people-list');
 
@@ -83,7 +90,15 @@ const App = {
       return;
     }
 
-    container.innerHTML = people.map(person => {
+    // Sort by birthdate
+    const sortedPeople = [...people].sort((a, b) => {
+      const dateA = new Date(a.birthdate);
+      const dateB = new Date(b.birthdate);
+      // oldest first = earliest birthdate first
+      return this.peopleSortOrder === 'oldest' ? dateA - dateB : dateB - dateA;
+    });
+
+    container.innerHTML = sortedPeople.map(person => {
       const age = Planner.calculateAge(person.birthdate);
       const birthdate = new Date(person.birthdate).toLocaleDateString('de-DE');
 

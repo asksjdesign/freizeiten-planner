@@ -73,7 +73,13 @@
     <section id="view-people" class="view" style="display: none;">
       <header class="view-header">
         <h2>Manage Children</h2>
-        <button onclick="showAddPersonModal()">Add Child</button>
+        <div class="view-header-actions">
+          <select id="people-sort" onchange="App.sortPeople(this.value)">
+            <option value="oldest">Oldest first</option>
+            <option value="youngest">Youngest first</option>
+          </select>
+          <button onclick="showAddPersonModal()">Add Child</button>
+        </div>
       </header>
 
       <div id="people-list" class="people-cards">
