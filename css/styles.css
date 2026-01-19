@@ -452,13 +452,9 @@ nav {
 
 .fc .fc-daygrid-day-number,
 .fc .fc-col-header-cell-cushion {
-  color: var(--pico-color);
-  text-decoration: none;
-}
-
-.fc .fc-daygrid-day-number:hover,
-.fc .fc-col-header-cell-cushion:hover {
-  text-decoration: none;
+  color: white !important;
+  text-decoration: none !important;
+  pointer-events: none;
 }
 
 .fc-event-kids-team {
