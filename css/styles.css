@@ -1,8 +1,45 @@
+/* Language Switcher */
+.lang-switcher {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+}
+
+.lang-btn {
+  background: transparent;
+  border: 1px solid var(--pico-muted-border-color);
+  color: var(--pico-muted-color);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  margin: 0;
+  width: auto;
+  border-radius: var(--pico-border-radius);
+}
+
+.lang-btn.active {
+  background: var(--pico-primary);
+  border-color: var(--pico-primary);
+  color: white;
+}
+
+.lang-btn:hover:not(.active) {
+  border-color: var(--pico-primary);
+  color: var(--pico-primary);
+}
+
 /* Auth Card */
 .auth-card {
-  max-width: 400px;
+  max-width: 480px;
   margin: 2rem auto;
   padding: 2rem;
+  position: relative;
+}
+
+.auth-card .lang-switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .auth-card header {

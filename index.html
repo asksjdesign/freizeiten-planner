@@ -10,48 +10,53 @@
 <body>
   <main class="container">
     <article class="auth-card">
+      <div class="lang-switcher">
+        <button class="lang-btn" data-lang="en" onclick="I18n.setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="de" onclick="I18n.setLang('de')">DE</button>
+      </div>
+
       <header>
-        <h1>Freizeiten Planner</h1>
-        <p>Plan summer camps for your children</p>
+        <h1 data-i18n="appTitle">Freizeiten Planner</h1>
+        <p data-i18n="appSubtitle">Plan summer camps for your children</p>
       </header>
 
       <div id="login-form">
-        <h2>Login</h2>
+        <h2 data-i18n="login">Login</h2>
         <form onsubmit="handleLogin(event)">
           <label>
-            Email
+            <span data-i18n="email">Email</span>
             <input type="email" id="login-email" required placeholder="your@email.com">
           </label>
           <label>
-            Password
+            <span data-i18n="password">Password</span>
             <input type="password" id="login-password" required placeholder="********">
           </label>
-          <button type="submit">Login</button>
+          <button type="submit" data-i18n="login">Login</button>
         </form>
         <p class="auth-switch">
-          Don't have an account? <a href="#" onclick="showSignup()">Sign up</a>
+          <span data-i18n="noAccount">Don't have an account?</span> <a href="#" onclick="showSignup()" data-i18n="signUp">Sign up</a>
         </p>
       </div>
 
       <div id="signup-form" style="display: none;">
-        <h2>Create Account</h2>
+        <h2 data-i18n="createAccount">Create Account</h2>
         <form onsubmit="handleSignup(event)">
           <label>
-            Name
-            <input type="text" id="signup-name" required placeholder="Your Name">
+            <span data-i18n="name">Name</span>
+            <input type="text" id="signup-name" required data-i18n-placeholder="childName">
           </label>
           <label>
-            Email
+            <span data-i18n="email">Email</span>
             <input type="email" id="signup-email" required placeholder="your@email.com">
           </label>
           <label>
-            Password
+            <span data-i18n="password">Password</span>
             <input type="password" id="signup-password" required minlength="6" placeholder="********">
           </label>
-          <button type="submit">Create Account</button>
+          <button type="submit" data-i18n="createAccount">Create Account</button>
         </form>
         <p class="auth-switch">
-          Already have an account? <a href="#" onclick="showLogin()">Login</a>
+          <span data-i18n="hasAccount">Already have an account?</span> <a href="#" onclick="showLogin()" data-i18n="login">Login</a>
         </p>
       </div>
 
@@ -60,12 +65,16 @@
   </main>
 
   <script src="js/api.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/auth.js"></script>
   <script>
     // Check if already logged in
     if (Auth.isLoggedIn()) {
       window.location.href = 'app.html';
     }
+
+    // Initialize i18n
+    I18n.init();
 
     function showLogin() {
       document.getElementById('login-form').style.display = 'block';
@@ -100,7 +109,7 @@
         await Auth.login(email, password);
         window.location.href = 'app.html';
       } catch (error) {
-        showError(error.message || 'Login failed');
+        showError(error.message || I18n.t('loginFailed'));
       }
     }
 
@@ -116,7 +125,7 @@
         await Auth.signup(name, email, password);
         window.location.href = 'app.html';
       } catch (error) {
-        showError(error.message || 'Signup failed');
+        showError(error.message || I18n.t('signupFailed'));
       }
     }
   </script>

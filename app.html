@@ -14,11 +14,17 @@
       <li><strong>Freizeiten Planner</strong></li>
     </ul>
     <ul>
-      <li><a href="#" class="nav-link active" data-view="planner">Planner</a></li>
-      <li><a href="#" class="nav-link" data-view="people">Children</a></li>
-      <li><a href="#" class="nav-link" data-view="selections">Saved Plans</a></li>
+      <li><a href="#" class="nav-link active" data-view="planner" data-i18n="planner">Planner</a></li>
+      <li><a href="#" class="nav-link" data-view="people" data-i18n="children">Children</a></li>
+      <li><a href="#" class="nav-link" data-view="selections" data-i18n="savedPlans">Saved Plans</a></li>
+      <li>
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="en" onclick="I18n.setLang('en'); refreshDynamicContent();">EN</button>
+          <button class="lang-btn" data-lang="de" onclick="I18n.setLang('de'); refreshDynamicContent();">DE</button>
+        </div>
+      </li>
       <li><span id="user-name"></span></li>
-      <li><a href="#" onclick="Auth.logout()">Logout</a></li>
+      <li><a href="#" onclick="Auth.logout()" data-i18n="logout">Logout</a></li>
     </ul>
   </nav>
 
@@ -31,25 +37,25 @@
         </div>
         <aside class="planner-sidebar">
           <div class="sidebar-section">
-            <h3>Select Children</h3>
+            <h3 data-i18n="selectChildren">Select Children</h3>
             <div id="people-checkboxes" class="people-list">
-              <p class="empty-state">Add children in the Children tab first</p>
+              <p class="empty-state" data-i18n="addChildrenFirst">Add children in the Children tab first</p>
             </div>
           </div>
 
           <div class="sidebar-section cost-summary">
-            <h3>Selected Camps</h3>
+            <h3 data-i18n="selectedCamps">Selected Camps</h3>
             <div id="cost-breakdown">
-              <p class="empty-state">Click on camps in the calendar to select them</p>
+              <p class="empty-state" data-i18n="clickToSelect">Click on camps in the calendar to select them</p>
             </div>
             <div class="total-cost">
-              <strong>Total: <span id="total-cost">0.00</span> EUR</strong>
+              <strong><span data-i18n="total">Total</span>: <span id="total-cost">0.00</span> EUR</strong>
             </div>
           </div>
 
           <div class="sidebar-actions">
-            <button onclick="Planner.saveSelection()" class="primary">Save Plan</button>
-            <button onclick="Planner.clearSelection()" class="secondary outline">Clear</button>
+            <button onclick="Planner.saveSelection()" class="primary" data-i18n="savePlan">Save Plan</button>
+            <button onclick="Planner.clearSelection()" class="secondary outline" data-i18n="clear">Clear</button>
           </div>
         </aside>
       </div>
@@ -72,18 +78,18 @@
     <!-- People View -->
     <section id="view-people" class="view" style="display: none;">
       <header class="view-header">
-        <h2>Manage Children</h2>
+        <h2 data-i18n="manageChildren">Manage Children</h2>
         <div class="view-header-actions">
           <select id="people-sort" onchange="App.sortPeople(this.value)">
-            <option value="oldest">Oldest first</option>
-            <option value="youngest">Youngest first</option>
+            <option value="oldest" data-i18n="oldestFirst">Oldest first</option>
+            <option value="youngest" data-i18n="youngestFirst">Youngest first</option>
           </select>
-          <button onclick="showAddPersonModal()">Add Child</button>
+          <button onclick="showAddPersonModal()" data-i18n="addChild">Add Child</button>
         </div>
       </header>
 
       <div id="people-list" class="people-cards">
-        <p class="empty-state">No children added yet. Click "Add Child" to get started.</p>
+        <p class="empty-state" data-i18n="noChildren">No children added yet. Click "Add Child" to get started.</p>
       </div>
 
       <!-- Add/Edit Person Modal -->
@@ -91,21 +97,21 @@
         <article>
           <header>
             <button aria-label="Close" rel="prev" onclick="closePersonModal()"></button>
-            <h3 id="person-modal-title">Add Child</h3>
+            <h3 id="person-modal-title" data-i18n="addChild">Add Child</h3>
           </header>
           <form id="person-form" onsubmit="handlePersonSubmit(event)">
             <input type="hidden" id="person-id">
             <label>
-              Name
-              <input type="text" id="person-name" required placeholder="Child's name">
+              <span data-i18n="name">Name</span>
+              <input type="text" id="person-name" required data-i18n-placeholder="childName">
             </label>
             <label>
-              Birthdate
+              <span>Birthdate</span>
               <input type="date" id="person-birthdate" required>
             </label>
             <footer>
-              <button type="button" class="secondary" onclick="closePersonModal()">Cancel</button>
-              <button type="submit">Save</button>
+              <button type="button" class="secondary" onclick="closePersonModal()" data-i18n="cancel">Cancel</button>
+              <button type="submit" data-i18n="save">Save</button>
             </footer>
           </form>
         </article>
@@ -115,20 +121,41 @@
     <!-- Selections View -->
     <section id="view-selections" class="view" style="display: none;">
       <header class="view-header">
-        <h2>Saved Plans</h2>
+        <h2 data-i18n="savedPlansTitle">Saved Plans</h2>
       </header>
 
       <div id="selections-list" class="selections-cards">
-        <p class="empty-state">No saved plans yet. Create a plan in the Planner tab.</p>
+        <p class="empty-state" data-i18n="noSavedPlans">No saved plans yet. Create a plan in the Planner tab.</p>
       </div>
     </section>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js"></script>
   <script src="js/api.js"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/auth.js"></script>
   <script src="js/calendar.js"></script>
   <script src="js/planner.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    function refreshDynamicContent() {
+      // Refresh people checkboxes
+      if (Planner.people.length > 0) {
+        Planner.renderPeopleCheckboxes();
+      }
+      // Refresh cost breakdown
+      Planner.updateUI();
+      // Refresh people cards
+      App.renderPeopleCards(Planner.people);
+      // Refresh selections
+      App.loadSelectionsView();
+      // Update sort dropdown options
+      const sortSelect = document.getElementById('people-sort');
+      if (sortSelect) {
+        sortSelect.options[0].text = I18n.t('oldestFirst');
+        sortSelect.options[1].text = I18n.t('youngestFirst');
+      }
+    }
+  </script>
 </body>
 </html>

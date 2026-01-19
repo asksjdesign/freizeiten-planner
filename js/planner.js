@@ -48,7 +48,7 @@ const Planner = {
     const container = document.getElementById('people-checkboxes');
 
     if (this.people.length === 0) {
-      container.innerHTML = '<p class="empty-state">Add children in the Children tab first</p>';
+      container.innerHTML = `<p class="empty-state">${I18n.t('addChildrenFirst')}</p>`;
       return;
     }
 
@@ -59,7 +59,7 @@ const Planner = {
         <label class="person-checkbox">
           <input type="checkbox" ${checked} onchange="Planner.togglePerson(${person.id})">
           <span>${person.name}</span>
-          <span class="age">${age} years</span>
+          <span class="age">${age} ${I18n.t('years')}</span>
         </label>
       `;
     }).join('');
@@ -126,20 +126,20 @@ const Planner = {
     // Camp details
     const details = document.getElementById('modal-camp-details');
     details.innerHTML = `
-      <p><span class="label">Dates:</span> ${this.formatDate(camp.start_date)} - ${this.formatDate(camp.end_date)}</p>
-      ${camp.zeit ? `<p><span class="label">Time:</span> ${camp.zeit}</p>` : ''}
-      <p><span class="label">Location:</span> ${camp.ort}</p>
-      ${camp.veranstaltungsort_adresse ? `<p><span class="label">Address:</span> ${camp.veranstaltungsort_adresse}</p>` : ''}
-      <p><span class="label">Age:</span> ${camp.alter_zielgruppe}</p>
-      <p><span class="label">Price:</span> ${camp.kosten ? camp.kosten.toFixed(2) + ' EUR' : 'TBD'}</p>
-      ${camp.kosten_fruehbucher ? `<p><span class="label">Early Bird:</span> ${camp.kosten_fruehbucher.toFixed(2)} EUR ${camp.fruehbucher_bis ? `(until ${this.formatDate(camp.fruehbucher_bis)})` : ''} ${this.isEarlyBirdActive(camp) ? '<span class="early-bird-active">✓ Active</span>' : '<span class="early-bird-expired">Expired</span>'}</p>` : ''}
-      ${camp.kosten_geschwister ? `<p><span class="label">Sibling Price:</span> ${camp.kosten_geschwister.toFixed(2)} EUR</p>` : ''}
-      ${camp.kosten_notiz ? `<p><span class="label">Note:</span> ${camp.kosten_notiz}</p>` : ''}
-      ${camp.beschreibung ? `<p><span class="label">Description:</span> ${camp.beschreibung}</p>` : ''}
-      ${camp.freie_plaetze ? `<p><span class="label">Available spots:</span> ${camp.freie_plaetze}</p>` : ''}
-      ${camp.anmeldeschluss ? `<p><span class="label">Registration deadline:</span> ${this.formatDate(camp.anmeldeschluss)}</p>` : ''}
-      ${camp.detail_url ? `<p><a href="${camp.detail_url}" target="_blank">More details</a></p>` : ''}
-      ${camp.anmelde_url ? `<p><a href="${camp.anmelde_url}" target="_blank">Register</a></p>` : ''}
+      <p><span class="label">${I18n.t('dates')}:</span> ${this.formatDate(camp.start_date)} - ${this.formatDate(camp.end_date)}</p>
+      ${camp.zeit ? `<p><span class="label">${I18n.t('time')}:</span> ${camp.zeit}</p>` : ''}
+      <p><span class="label">${I18n.t('location')}:</span> ${camp.ort}</p>
+      ${camp.veranstaltungsort_adresse ? `<p><span class="label">${I18n.t('address')}:</span> ${camp.veranstaltungsort_adresse}</p>` : ''}
+      <p><span class="label">${I18n.t('age')}:</span> ${camp.alter_zielgruppe}</p>
+      <p><span class="label">${I18n.t('price')}:</span> ${camp.kosten ? camp.kosten.toFixed(2) + ' EUR' : I18n.t('tbd')}</p>
+      ${camp.kosten_fruehbucher ? `<p><span class="label">${I18n.t('earlyBird')}:</span> ${camp.kosten_fruehbucher.toFixed(2)} EUR ${camp.fruehbucher_bis ? `(${I18n.t('until')} ${this.formatDate(camp.fruehbucher_bis)})` : ''} ${this.isEarlyBirdActive(camp) ? `<span class="early-bird-active">✓ ${I18n.t('active')}</span>` : `<span class="early-bird-expired">${I18n.t('expired')}</span>`}</p>` : ''}
+      ${camp.kosten_geschwister ? `<p><span class="label">${I18n.t('siblingPrice')}:</span> ${camp.kosten_geschwister.toFixed(2)} EUR</p>` : ''}
+      ${camp.kosten_notiz ? `<p><span class="label">${I18n.t('note')}:</span> ${camp.kosten_notiz}</p>` : ''}
+      ${camp.beschreibung ? `<p><span class="label">${I18n.t('description')}:</span> ${camp.beschreibung}</p>` : ''}
+      ${camp.freie_plaetze ? `<p><span class="label">${I18n.t('availableSpots')}:</span> ${camp.freie_plaetze}</p>` : ''}
+      ${camp.anmeldeschluss ? `<p><span class="label">${I18n.t('registrationDeadline')}:</span> ${this.formatDate(camp.anmeldeschluss)}</p>` : ''}
+      ${camp.detail_url ? `<p><a href="${camp.detail_url}" target="_blank">${I18n.t('moreDetails')}</a></p>` : ''}
+      ${camp.anmelde_url ? `<p><a href="${camp.anmelde_url}" target="_blank">${I18n.t('register')}</a></p>` : ''}
     `;
 
     // Person selection
@@ -147,7 +147,7 @@ const Planner = {
     const selectedPeople = this.people.filter(p => this.selectedPeopleIds.has(p.id));
 
     if (selectedPeople.length === 0) {
-      selectionDiv.innerHTML = '<p class="empty-state">Select children above first</p>';
+      selectionDiv.innerHTML = `<p class="empty-state">${I18n.t('selectChildrenFirst')}</p>`;
     } else {
       selectionDiv.innerHTML = selectedPeople.map(person => {
         const eligible = this.isEligible(person, camp);
@@ -157,15 +157,15 @@ const Planner = {
         if (!eligible) {
           return `
             <div class="camp-person-select ineligible">
-              <span>${person.name} (${ageAtCamp} at camp)</span>
-              <span class="ineligible-reason">Age ${ageAtCamp} not in range ${camp.alter_min || '?'}-${camp.alter_max || '?'}</span>
+              <span>${person.name} (${ageAtCamp} ${I18n.t('atCamp')})</span>
+              <span class="ineligible-reason">${I18n.t('ageNotInRange')} ${camp.alter_min || '?'}-${camp.alter_max || '?'}</span>
             </div>
           `;
         }
 
         return `
           <label class="camp-person-select">
-            <span>${person.name} (${ageAtCamp} at camp)</span>
+            <span>${person.name} (${ageAtCamp} ${I18n.t('atCamp')})</span>
             <input type="checkbox" ${isSelected ? 'checked' : ''}
               onchange="Planner.toggleCampForPerson(${camp.id}, ${person.id})">
           </label>
@@ -253,12 +253,12 @@ const Planner = {
       // Additional people pay sibling price if available
       if (hasSiblingPrice) {
         campCost += effectiveSiblingPrice * (peopleCount - 1);
-        detail = `1 x ${effectivePrice.toFixed(2)} + ${peopleCount - 1} x ${effectiveSiblingPrice.toFixed(2)} (sibling)`;
+        detail = `1 x ${effectivePrice.toFixed(2)} + ${peopleCount - 1} x ${effectiveSiblingPrice.toFixed(2)} (${I18n.t('sibling')})`;
       } else {
         campCost = effectivePrice * peopleCount;
         detail = `${peopleCount} x ${effectivePrice.toFixed(2)}`;
       }
-      if (isEarlyBird) detail += ' [Early Bird]';
+      if (isEarlyBird) detail += ` [${I18n.t('earlyBirdLabel')}]`;
 
       breakdown.push({
         campId,
@@ -282,7 +282,7 @@ const Planner = {
     const totalEl = document.getElementById('total-cost');
 
     if (breakdown.length === 0 && campsWithoutPrice.length === 0) {
-      container.innerHTML = '<p class="empty-state">Click on camps in the calendar to select them</p>';
+      container.innerHTML = `<p class="empty-state">${I18n.t('clickToSelect')}</p>`;
       totalEl.textContent = '0.00';
       return;
     }
@@ -313,7 +313,7 @@ const Planner = {
               <div class="camp-cost-people">${item.peopleNames}</div>
             </div>
             <div class="camp-cost-right">
-              <span class="camp-cost-price">TBD</span>
+              <span class="camp-cost-price">${I18n.t('tbd')}</span>
               <button class="remove-btn" onclick="Planner.removeCamp(${item.campId})" title="Remove">&times;</button>
             </div>
           </div>
@@ -329,11 +329,11 @@ const Planner = {
     const { total } = this.calculateCost();
 
     if (this.selections.size === 0) {
-      alert('Please select at least one camp first');
+      alert(I18n.t('selectCampFirst'));
       return;
     }
 
-    const name = prompt('Enter a name for this plan:', `Plan ${new Date().toLocaleDateString('de-DE')}`);
+    const name = prompt(I18n.t('enterPlanName'), `${I18n.t('planDefault')} ${new Date().toLocaleDateString('de-DE')}`);
     if (!name) return;
 
     // Convert selections to array format
@@ -346,15 +346,15 @@ const Planner = {
 
     try {
       await Api.saveSelection(name, selectionsArray, total);
-      alert('Plan saved successfully!');
+      alert(I18n.t('planSaved'));
     } catch (error) {
-      alert('Failed to save plan: ' + error.message);
+      alert(I18n.t('failedToSave') + ': ' + error.message);
     }
   },
 
   clearSelection() {
     if (this.selections.size > 0) {
-      if (!confirm('Are you sure you want to clear all selections?')) return;
+      if (!confirm(I18n.t('confirmClear'))) return;
     }
 
     this.selections.clear();

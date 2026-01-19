@@ -86,7 +86,7 @@ const App = {
     const container = document.getElementById('people-list');
 
     if (people.length === 0) {
-      container.innerHTML = '<p class="empty-state">No children added yet. Click "Add Child" to get started.</p>';
+      container.innerHTML = `<p class="empty-state">${I18n.t('noChildren')}</p>`;
       return;
     }
 
@@ -105,11 +105,11 @@ const App = {
       return `
         <article class="person-card">
           <h4>${person.name}</h4>
-          <p class="birthdate">Born: ${birthdate}</p>
-          <p class="age">Age: ${age} years</p>
+          <p class="birthdate">${I18n.t('born')}: ${birthdate}</p>
+          <p class="age">${I18n.t('age')}: ${age} ${I18n.t('years')}</p>
           <div class="actions">
-            <button class="secondary outline" onclick="showEditPersonModal(${person.id})">Edit</button>
-            <button class="secondary outline" onclick="deletePerson(${person.id})">Delete</button>
+            <button class="secondary outline" onclick="showEditPersonModal(${person.id})">${I18n.t('edit')}</button>
+            <button class="secondary outline" onclick="deletePerson(${person.id})">${I18n.t('delete')}</button>
           </div>
         </article>
       `;
@@ -130,23 +130,24 @@ const App = {
     const container = document.getElementById('selections-list');
 
     if (selections.length === 0) {
-      container.innerHTML = '<p class="empty-state">No saved plans yet. Create a plan in the Planner tab.</p>';
+      container.innerHTML = `<p class="empty-state">${I18n.t('noSavedPlans')}</p>`;
       return;
     }
 
     container.innerHTML = selections.map(selection => {
       const createdAt = new Date(selection.created_at * 1000).toLocaleDateString('de-DE');
       const campsCount = selection.selections ? selection.selections.length : 0;
+      const campLabel = campsCount !== 1 ? I18n.t('campSelectionsPlural') : I18n.t('campSelections');
 
       return `
         <article class="selection-card">
           <h4>${selection.name}</h4>
-          <p class="meta">Created: ${createdAt}</p>
-          <p class="camps-preview">${campsCount} camp selection${campsCount !== 1 ? 's' : ''}</p>
-          <p class="total">Total: ${(selection.total_cost || 0).toFixed(2)} EUR</p>
+          <p class="meta">${I18n.t('created')}: ${createdAt}</p>
+          <p class="camps-preview">${campsCount} ${campLabel}</p>
+          <p class="total">${I18n.t('total')}: ${(selection.total_cost || 0).toFixed(2)} EUR</p>
           <div class="actions">
-            <button onclick="loadSavedSelection(${selection.id})">Load</button>
-            <button class="secondary outline" onclick="deleteSelection(${selection.id})">Delete</button>
+            <button onclick="loadSavedSelection(${selection.id})">${I18n.t('load')}</button>
+            <button class="secondary outline" onclick="deleteSelection(${selection.id})">${I18n.t('delete')}</button>
           </div>
         </article>
       `;
@@ -156,7 +157,7 @@ const App = {
 
 // Person Modal Functions
 function showAddPersonModal() {
-  document.getElementById('person-modal-title').textContent = 'Add Child';
+  document.getElementById('person-modal-title').textContent = I18n.t('addChild');
   document.getElementById('person-id').value = '';
   document.getElementById('person-name').value = '';
   document.getElementById('person-birthdate').value = '';
@@ -167,7 +168,7 @@ function showEditPersonModal(personId) {
   const person = Planner.people.find(p => p.id === personId);
   if (!person) return;
 
-  document.getElementById('person-modal-title').textContent = 'Edit Child';
+  document.getElementById('person-modal-title').textContent = I18n.t('editChild');
   document.getElementById('person-id').value = person.id;
   document.getElementById('person-name').value = person.name;
   document.getElementById('person-birthdate').value = person.birthdate;
@@ -196,12 +197,12 @@ async function handlePersonSubmit(e) {
     await App.loadPeopleView();
     Planner.renderPeopleCheckboxes();
   } catch (error) {
-    alert('Failed to save: ' + error.message);
+    alert(I18n.t('failedToSave') + ': ' + error.message);
   }
 }
 
 async function deletePerson(personId) {
-  if (!confirm('Are you sure you want to delete this child?')) return;
+  if (!confirm(I18n.t('confirmDelete'))) return;
 
   try {
     await Api.deletePerson(personId);
@@ -209,7 +210,7 @@ async function deletePerson(personId) {
     await Planner.loadPeople();
     Planner.renderPeopleCheckboxes();
   } catch (error) {
-    alert('Failed to delete: ' + error.message);
+    alert(I18n.t('failedToDelete') + ': ' + error.message);
   }
 }
 
@@ -222,22 +223,23 @@ async function loadSavedSelection(selectionId) {
       Planner.loadSelection(selection);
     }
   } catch (error) {
-    alert('Failed to load selection: ' + error.message);
+    alert(I18n.t('failedToLoad') + ': ' + error.message);
   }
 }
 
 async function deleteSelection(selectionId) {
-  if (!confirm('Are you sure you want to delete this saved plan?')) return;
+  if (!confirm(I18n.t('confirmDeletePlan'))) return;
 
   try {
     await Api.deleteSelection(selectionId);
     await App.loadSelectionsView();
   } catch (error) {
-    alert('Failed to delete: ' + error.message);
+    alert(I18n.t('failedToDelete') + ': ' + error.message);
   }
 }
 
 // Initialize app when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+  I18n.init();
   App.init();
 });
