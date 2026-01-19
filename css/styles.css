@@ -54,7 +54,12 @@ button:not(.fc-button):not([class*="fc-"]),
 /* Calendar list view - dark theme */
 .fc .fc-list {
   background: transparent;
-  border-color: var(--pico-muted-border-color);
+  border-color: var(--pico-background-color);
+}
+
+.fc .fc-list-table td,
+.fc .fc-list-table th {
+  border-color: var(--pico-background-color) !important;
 }
 
 .fc .fc-list-event:hover td {
