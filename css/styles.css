@@ -502,6 +502,21 @@ nav {
   pointer-events: none;
 }
 
+/* Calendar header row - dark background */
+.fc .fc-col-header,
+.fc .fc-col-header-cell {
+  background: transparent !important;
+}
+
+.fc th {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Minimum height for day cells */
+.fc .fc-daygrid-day-frame {
+  min-height: 100px;
+}
+
 .fc-event-kids-team {
   background-color: rgba(41, 82, 122, 0.85) !important;
   border-color: rgba(31, 62, 92, 0.9) !important;
