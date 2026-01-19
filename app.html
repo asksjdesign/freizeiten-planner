@@ -44,7 +44,10 @@
           </div>
 
           <div class="sidebar-section cost-summary">
-            <h3 data-i18n="selectedCamps">Selected Camps</h3>
+            <div class="section-header">
+              <h3 data-i18n="selectedCamps">Selected Camps</h3>
+              <button class="expand-btn" onclick="Planner.showExpandedView()" title="Expand">⤢</button>
+            </div>
             <div id="cost-breakdown">
               <p class="empty-state" data-i18n="clickToSelect">Click on camps in the calendar to select them</p>
             </div>
@@ -70,6 +73,22 @@
           <div id="modal-camp-details"></div>
           <footer>
             <div id="modal-camp-selection"></div>
+          </footer>
+        </article>
+      </dialog>
+
+      <!-- Expanded Selection Modal -->
+      <dialog id="expanded-modal" class="expanded-modal">
+        <article>
+          <header>
+            <button aria-label="Close" rel="prev" onclick="closeExpandedModal()"></button>
+            <h3 data-i18n="selectedCamps">Selected Camps</h3>
+          </header>
+          <div id="expanded-content"></div>
+          <footer>
+            <div class="expanded-total">
+              <strong><span data-i18n="total">Total</span>: <span id="expanded-total-cost">0.00</span> EUR</strong>
+            </div>
           </footer>
         </article>
       </dialog>

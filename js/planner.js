@@ -406,9 +406,90 @@ const Planner = {
 
     // Switch to planner view
     App.showView('planner');
+  },
+
+  showExpandedView() {
+    if (this.selections.size === 0) return;
+
+    const modal = document.getElementById('expanded-modal');
+    const content = document.getElementById('expanded-content');
+    const totalEl = document.getElementById('expanded-total-cost');
+
+    const { total, breakdown, campsWithoutPrice } = this.calculateCost();
+
+    let html = '<div class="expanded-camps-grid">';
+
+    // Add camps with pricing
+    breakdown.forEach(item => {
+      const camp = Calendar.camps.find(c => c.id === item.campId);
+      if (!camp) return;
+
+      html += `
+        <div class="expanded-camp-card ${item.hasEarlyBird ? 'early-bird' : ''}">
+          <div class="expanded-camp-header">
+            <h4>${camp.name}</h4>
+            <button class="remove-btn" onclick="Planner.removeCamp(${item.campId}); Planner.showExpandedView();" title="Remove">&times;</button>
+          </div>
+          <div class="expanded-camp-details">
+            <p><strong>${I18n.t('dates')}:</strong> ${this.formatDate(camp.start_date)} - ${this.formatDate(camp.end_date)}</p>
+            <p><strong>${I18n.t('location')}:</strong> ${camp.ort}</p>
+            ${camp.veranstaltungsort_adresse ? `<p><strong>${I18n.t('address')}:</strong> ${camp.veranstaltungsort_adresse}</p>` : ''}
+            <p><strong>${I18n.t('age')}:</strong> ${camp.alter_zielgruppe}</p>
+            ${camp.beschreibung ? `<p class="camp-description">${camp.beschreibung}</p>` : ''}
+          </div>
+          <div class="expanded-camp-footer">
+            <div class="camp-attendees">
+              <strong>${I18n.t('children')}:</strong> ${item.peopleNames}
+            </div>
+            <div class="camp-price">
+              <span class="price-amount">${item.cost.toFixed(2)} EUR</span>
+              <span class="price-detail">${item.detail}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // Add camps without pricing
+    campsWithoutPrice.forEach(item => {
+      const camp = item.camp;
+      html += `
+        <div class="expanded-camp-card no-price">
+          <div class="expanded-camp-header">
+            <h4>${camp.name}</h4>
+            <button class="remove-btn" onclick="Planner.removeCamp(${item.campId}); Planner.showExpandedView();" title="Remove">&times;</button>
+          </div>
+          <div class="expanded-camp-details">
+            <p><strong>${I18n.t('dates')}:</strong> ${this.formatDate(camp.start_date)} - ${this.formatDate(camp.end_date)}</p>
+            <p><strong>${I18n.t('location')}:</strong> ${camp.ort}</p>
+            ${camp.veranstaltungsort_adresse ? `<p><strong>${I18n.t('address')}:</strong> ${camp.veranstaltungsort_adresse}</p>` : ''}
+            <p><strong>${I18n.t('age')}:</strong> ${camp.alter_zielgruppe}</p>
+            ${camp.beschreibung ? `<p class="camp-description">${camp.beschreibung}</p>` : ''}
+          </div>
+          <div class="expanded-camp-footer">
+            <div class="camp-attendees">
+              <strong>${I18n.t('children')}:</strong> ${item.peopleNames}
+            </div>
+            <div class="camp-price">
+              <span class="price-amount">${I18n.t('tbd')}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    html += '</div>';
+
+    content.innerHTML = html;
+    totalEl.textContent = total.toFixed(2);
+    modal.showModal();
   }
 };
 
 function closeCampModal() {
   document.getElementById('camp-modal').close();
+}
+
+function closeExpandedModal() {
+  document.getElementById('expanded-modal').close();
 }
