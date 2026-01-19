@@ -28,10 +28,27 @@ button:not(.fc-button):not([class*="fc-"]),
   border-radius: 9999px;
 }
 
-/* Keep calendar buttons colored */
-.fc button,
-.fc-button {
-  --pico-primary: #5b9bd5;
+/* Calendar navigation buttons - icon only */
+.fc .fc-button {
+  background: transparent !important;
+  border: none !important;
+  color: var(--pico-color) !important;
+  box-shadow: none !important;
+  padding: 0.25rem 0.5rem !important;
+}
+
+.fc .fc-button:hover {
+  color: var(--pico-primary) !important;
+  background: transparent !important;
+}
+
+.fc .fc-button:focus {
+  box-shadow: none !important;
+}
+
+.fc .fc-button-active {
+  color: var(--pico-primary) !important;
+  background: transparent !important;
 }
 
 /* Grayscale nav links */
