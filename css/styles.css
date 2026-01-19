@@ -61,11 +61,11 @@ button:not(.fc-button):not([class*="fc-"]),
   background: rgba(255, 255, 255, 0.05);
 }
 
-.fc .fc-list-day-cushion,
 .fc .fc-list-event td {
   background: rgba(255, 255, 255, 0.03) !important;
 }
 
+.fc .fc-list-day th,
 .fc .fc-list-day-cushion {
   background: rgba(255, 255, 255, 0.08) !important;
 }
