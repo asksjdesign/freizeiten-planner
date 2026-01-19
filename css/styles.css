@@ -244,30 +244,79 @@ nav {
   border-radius: var(--pico-border-radius);
 }
 
-/* Calendar view toggle */
-.calendar-view-toggle {
+/* Calendar header */
+.calendar-header {
   display: flex;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
+}
+
+.calendar-header h3 {
+  margin: 0;
+  font-weight: 600;
+}
+
+.calendar-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nav-arrow {
+  background: transparent !important;
+  border: 1px solid var(--pico-muted-border-color) !important;
+  color: var(--pico-color) !important;
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-arrow:hover {
+  border-color: var(--ui-accent) !important;
+  color: var(--ui-accent) !important;
+}
+
+.view-toggle {
+  display: flex;
+  background: var(--pico-background-color);
+  border: 1px solid var(--pico-muted-border-color);
+  border-radius: 9999px;
+  padding: 2px;
 }
 
 .view-toggle-btn {
   background: transparent !important;
-  border: 1px solid var(--pico-muted-border-color) !important;
+  border: none !important;
   color: var(--pico-muted-color) !important;
-  padding: 0.4rem 1rem !important;
-  font-size: 0.875rem;
+  width: 36px !important;
+  height: 36px !important;
+  padding: 0 !important;
+  font-size: 1rem;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  transition: all 0.15s ease;
 }
 
 .view-toggle-btn.active {
   background: var(--ui-accent) !important;
-  border-color: var(--ui-accent) !important;
   color: white !important;
 }
 
 .view-toggle-btn:hover:not(.active) {
-  border-color: var(--ui-accent) !important;
   color: var(--pico-color) !important;
 }
 

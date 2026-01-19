@@ -94,7 +94,10 @@ const I18n = {
       // Cost
       sibling: 'sibling',
       earlyBirdLabel: 'Early Bird',
-      priceTbd: 'Price TBD'
+      priceTbd: 'Price TBD',
+
+      // Calendar
+      fullList: 'Full List'
     },
     de: {
       // Auth
@@ -187,7 +190,10 @@ const I18n = {
       // Cost
       sibling: 'Geschwister',
       earlyBirdLabel: 'Frühbucher',
-      priceTbd: 'Preis TBD'
+      priceTbd: 'Preis TBD',
+
+      // Calendar
+      fullList: 'Alle Camps'
     }
   },
 

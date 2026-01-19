@@ -33,9 +33,18 @@
     <section id="view-planner" class="view">
       <div class="planner-layout">
         <div class="calendar-container">
-          <div class="calendar-view-toggle">
-            <button class="view-toggle-btn active" data-view="calendar" onclick="Calendar.showView('calendar')">Calendar</button>
-            <button class="view-toggle-btn" data-view="list" onclick="Calendar.showView('list')">List</button>
+          <div class="calendar-header">
+            <h3 id="calendar-title"></h3>
+            <div class="calendar-header-right">
+              <div class="calendar-nav" id="calendar-nav">
+                <button class="nav-arrow" onclick="Calendar.prev()" aria-label="Previous month">‹</button>
+                <button class="nav-arrow" onclick="Calendar.next()" aria-label="Next month">›</button>
+              </div>
+              <div class="view-toggle">
+                <button class="view-toggle-btn active" data-view="calendar" onclick="Calendar.showView('calendar')" aria-label="Calendar view">📅</button>
+                <button class="view-toggle-btn" data-view="list" onclick="Calendar.showView('list')" aria-label="List view">☰</button>
+              </div>
+            </div>
           </div>
           <div id="calendar"></div>
           <div id="camps-list" class="camps-list" style="display: none;"></div>

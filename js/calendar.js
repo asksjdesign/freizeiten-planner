@@ -21,11 +21,8 @@ const Calendar = {
       locale: 'de',
       firstDay: 1,
       height: 'auto',
-      headerToolbar: {
-        left: 'prev,next',
-        center: 'title',
-        right: ''
-      },
+      headerToolbar: false,
+      datesSet: () => this.updateTitle(),
       eventClick: (info) => {
         const camp = this.camps.find(c => c.id === parseInt(info.event.id));
         if (camp) {
@@ -111,6 +108,7 @@ const Calendar = {
     this.currentView = view;
     const calendarEl = document.getElementById('calendar');
     const listEl = document.getElementById('camps-list');
+    const navEl = document.getElementById('calendar-nav');
     const buttons = document.querySelectorAll('.view-toggle-btn');
 
     buttons.forEach(btn => {
@@ -120,10 +118,36 @@ const Calendar = {
     if (view === 'calendar') {
       calendarEl.style.display = 'block';
       listEl.style.display = 'none';
+      navEl.style.display = 'flex';
+      this.updateTitle();
     } else {
       calendarEl.style.display = 'none';
       listEl.style.display = 'block';
+      navEl.style.display = 'none';
+      document.getElementById('calendar-title').textContent = I18n.t('fullList') || 'Full List';
       this.renderCampsList();
+    }
+  },
+
+  updateTitle() {
+    if (this.currentView !== 'calendar' || !this.instance) return;
+    const date = this.instance.getDate();
+    const title = date.toLocaleDateString(I18n.currentLang === 'de' ? 'de-DE' : 'en-US', {
+      month: 'long',
+      year: 'numeric'
+    });
+    document.getElementById('calendar-title').textContent = title;
+  },
+
+  prev() {
+    if (this.instance) {
+      this.instance.prev();
+    }
+  },
+
+  next() {
+    if (this.instance) {
+      this.instance.next();
     }
   },
 
