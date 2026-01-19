@@ -51,12 +51,15 @@ const Calendar = {
     }
   },
 
-  renderCamps() {
+  renderCamps(campsToShow = null) {
     // Clear existing events
     this.instance.removeAllEvents();
 
+    // Use filtered camps if provided, otherwise all camps
+    const displayCamps = campsToShow || this.camps;
+
     // Add camp events
-    const events = this.camps.map(camp => ({
+    const events = displayCamps.map(camp => ({
       id: camp.id.toString(),
       title: camp.name,
       start: camp.start_date,
@@ -69,6 +72,11 @@ const Calendar = {
     this.instance.addEventSource(events);
   },
 
+  filterBySelectedPeople() {
+    const eligibleCamps = Planner.getEligibleCamps();
+    this.renderCamps(eligibleCamps);
+  },
+
   getEndDateForCalendar(endDate) {
     // FullCalendar end dates are exclusive, so add 1 day
     const date = new Date(endDate);
@@ -77,20 +85,7 @@ const Calendar = {
   },
 
   updateEventSelection() {
-    // Update visual selection state for all events
-    const events = this.instance.getEvents();
-    events.forEach(event => {
-      const el = event.el;
-      if (el) {
-        if (Planner.isCampSelected(parseInt(event.id))) {
-          event.setProp('classNames', [...event.classNames, 'fc-event-selected']);
-        } else {
-          event.setProp('classNames', event.classNames.filter(c => c !== 'fc-event-selected'));
-        }
-      }
-    });
-    // Re-render to apply changes
-    this.instance.refetchEvents();
-    this.renderCamps();
+    // Re-render with current filter and selection state
+    this.filterBySelectedPeople();
   }
 };

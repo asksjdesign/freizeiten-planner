@@ -79,6 +79,20 @@ const Planner = {
       this.selectedPeopleIds.add(personId);
     }
     this.updateUI();
+    Calendar.filterBySelectedPeople();
+  },
+
+  getEligibleCamps() {
+    // If no people selected, show all camps
+    if (this.selectedPeopleIds.size === 0) {
+      return Calendar.camps;
+    }
+
+    // Filter to camps where at least one selected person is eligible
+    const selectedPeople = this.people.filter(p => this.selectedPeopleIds.has(p.id));
+    return Calendar.camps.filter(camp => {
+      return selectedPeople.some(person => this.isEligible(person, camp));
+    });
   },
 
   isCampSelected(campId) {
@@ -214,7 +228,8 @@ const Planner = {
 
     this.selections.forEach((personIds, campId) => {
       const camp = Calendar.camps.find(c => c.id === campId);
-      if (!camp || !camp.kosten) return;
+      // Skip if camp not found or has no price (null/undefined, but allow 0)
+      if (!camp || camp.kosten === null || camp.kosten === undefined) return;
 
       const peopleCount = personIds.size;
       if (peopleCount === 0) return;
@@ -252,13 +267,24 @@ const Planner = {
     const container = document.getElementById('cost-breakdown');
     const totalEl = document.getElementById('total-cost');
 
-    if (breakdown.length === 0) {
+    // Check for camps without pricing
+    const campsWithoutPrice = [];
+    this.selections.forEach((personIds, campId) => {
+      if (personIds.size > 0) {
+        const camp = Calendar.camps.find(c => c.id === campId);
+        if (camp && (camp.kosten === null || camp.kosten === undefined)) {
+          campsWithoutPrice.push(camp.name);
+        }
+      }
+    });
+
+    if (breakdown.length === 0 && campsWithoutPrice.length === 0) {
       container.innerHTML = '<p class="empty-state">No camps selected</p>';
       totalEl.textContent = '0.00';
       return;
     }
 
-    container.innerHTML = breakdown.map(item => `
+    let html = breakdown.map(item => `
       <div class="cost-line ${item.hasSiblingDiscount ? 'sibling-discount' : ''}">
         <span>${item.camp}</span>
         <span>${item.cost.toFixed(2)} EUR</span>
@@ -268,6 +294,14 @@ const Planner = {
       </div>
     `).join('');
 
+    // Add camps without pricing
+    if (campsWithoutPrice.length > 0) {
+      html += `<div class="cost-line" style="margin-top: 0.5rem; color: var(--pico-muted-color); font-style: italic;">
+        <span>Price TBD: ${campsWithoutPrice.join(', ')}</span>
+      </div>`;
+    }
+
+    container.innerHTML = html;
     totalEl.textContent = total.toFixed(2);
   },
 
