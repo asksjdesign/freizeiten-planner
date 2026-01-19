@@ -450,12 +450,14 @@ nav {
   font-size: 0.8rem;
 }
 
-.fc .fc-daygrid-day-number {
+.fc .fc-daygrid-day-number,
+.fc .fc-col-header-cell-cushion {
   color: var(--pico-color);
   text-decoration: none;
 }
 
-.fc .fc-daygrid-day-number:hover {
+.fc .fc-daygrid-day-number:hover,
+.fc .fc-col-header-cell-cushion:hover {
   text-decoration: none;
 }
 
