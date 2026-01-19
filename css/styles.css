@@ -528,25 +528,23 @@ nav {
 
 .expand-btn {
   background: transparent !important;
-  border: 1px solid var(--pico-muted-border-color) !important;
+  border: none !important;
   color: var(--pico-muted-color) !important;
-  width: 24px !important;
-  height: 24px !important;
-  min-width: 24px;
+  width: auto !important;
+  height: auto !important;
   padding: 0 !important;
   margin: 0 !important;
-  font-size: 0.9rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  border-radius: 4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: color 0.15s ease;
 }
 
 .expand-btn:hover {
-  border-color: var(--pico-primary) !important;
-  color: var(--pico-primary) !important;
+  color: var(--pico-color) !important;
   background: transparent !important;
 }
 
