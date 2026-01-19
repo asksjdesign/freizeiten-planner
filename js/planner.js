@@ -209,39 +209,7 @@ const Planner = {
   },
 
   updateUI() {
-    this.renderSelectedCamps();
     this.renderCostBreakdown();
-  },
-
-  renderSelectedCamps() {
-    const container = document.getElementById('selected-camps');
-
-    if (this.selections.size === 0) {
-      container.innerHTML = '<p class="empty-state">Click on camps in the calendar to select them</p>';
-      return;
-    }
-
-    const campItems = [];
-    this.selections.forEach((personIds, campId) => {
-      const camp = Calendar.camps.find(c => c.id === campId);
-      if (camp && personIds.size > 0) {
-        const peopleNames = Array.from(personIds)
-          .map(pid => this.people.find(p => p.id === pid)?.name || 'Unknown')
-          .join(', ');
-
-        campItems.push(`
-          <div class="selected-camp-item">
-            <div>
-              <div class="camp-name">${camp.name}</div>
-              <div class="camp-people">${peopleNames}</div>
-            </div>
-            <button class="secondary outline" onclick="Planner.removeCamp(${campId})">Remove</button>
-          </div>
-        `);
-      }
-    });
-
-    container.innerHTML = campItems.join('');
   },
 
   removeCamp(campId) {
@@ -253,15 +221,26 @@ const Planner = {
   calculateCost() {
     let total = 0;
     const breakdown = [];
+    const campsWithoutPrice = [];
 
     this.selections.forEach((personIds, campId) => {
       const camp = Calendar.camps.find(c => c.id === campId);
-      const effectivePrice = this.getEffectivePrice(camp);
-      // Skip if camp not found or has no price
-      if (!camp || effectivePrice === null) return;
+      if (!camp) return;
 
       const peopleCount = personIds.size;
       if (peopleCount === 0) return;
+
+      const peopleNames = Array.from(personIds)
+        .map(pid => this.people.find(p => p.id === pid)?.name || 'Unknown')
+        .join(', ');
+
+      const effectivePrice = this.getEffectivePrice(camp);
+
+      // Track camps without pricing
+      if (effectivePrice === null) {
+        campsWithoutPrice.push({ campId, camp, peopleNames });
+        return;
+      }
 
       const isEarlyBird = this.isEarlyBirdActive(camp);
       const effectiveSiblingPrice = this.getEffectiveSiblingPrice(camp);
@@ -269,75 +248,77 @@ const Planner = {
 
       // First person pays effective price (early bird or regular)
       let campCost = effectivePrice;
+      let detail;
 
       // Additional people pay sibling price if available
       if (hasSiblingPrice) {
         campCost += effectiveSiblingPrice * (peopleCount - 1);
-        let detail = `1 x ${effectivePrice.toFixed(2)} + ${peopleCount - 1} x ${effectiveSiblingPrice.toFixed(2)} (sibling)`;
-        if (isEarlyBird) detail += ' [Early Bird]';
-        breakdown.push({
-          camp: camp.name,
-          cost: campCost,
-          detail,
-          hasSiblingDiscount: true,
-          hasEarlyBird: isEarlyBird
-        });
+        detail = `1 x ${effectivePrice.toFixed(2)} + ${peopleCount - 1} x ${effectiveSiblingPrice.toFixed(2)} (sibling)`;
       } else {
         campCost = effectivePrice * peopleCount;
-        let detail = `${peopleCount} x ${effectivePrice.toFixed(2)}`;
-        if (isEarlyBird) detail += ' [Early Bird]';
-        breakdown.push({
-          camp: camp.name,
-          cost: campCost,
-          detail,
-          hasSiblingDiscount: false,
-          hasEarlyBird: isEarlyBird
-        });
+        detail = `${peopleCount} x ${effectivePrice.toFixed(2)}`;
       }
+      if (isEarlyBird) detail += ' [Early Bird]';
+
+      breakdown.push({
+        campId,
+        camp: camp.name,
+        peopleNames,
+        cost: campCost,
+        detail,
+        hasSiblingDiscount: hasSiblingPrice,
+        hasEarlyBird: isEarlyBird
+      });
 
       total += campCost;
     });
 
-    return { total, breakdown };
+    return { total, breakdown, campsWithoutPrice };
   },
 
   renderCostBreakdown() {
-    const { total, breakdown } = this.calculateCost();
+    const { total, breakdown, campsWithoutPrice } = this.calculateCost();
     const container = document.getElementById('cost-breakdown');
     const totalEl = document.getElementById('total-cost');
 
-    // Check for camps without pricing
-    const campsWithoutPrice = [];
-    this.selections.forEach((personIds, campId) => {
-      if (personIds.size > 0) {
-        const camp = Calendar.camps.find(c => c.id === campId);
-        if (camp && (camp.kosten === null || camp.kosten === undefined)) {
-          campsWithoutPrice.push(camp.name);
-        }
-      }
-    });
-
     if (breakdown.length === 0 && campsWithoutPrice.length === 0) {
-      container.innerHTML = '<p class="empty-state">No camps selected</p>';
+      container.innerHTML = '<p class="empty-state">Click on camps in the calendar to select them</p>';
       totalEl.textContent = '0.00';
       return;
     }
 
     let html = breakdown.map(item => `
-      <div class="cost-line ${item.hasSiblingDiscount ? 'sibling-discount' : ''} ${item.hasEarlyBird ? 'early-bird' : ''}">
-        <span>${item.camp}</span>
-        <span>${item.cost.toFixed(2)} EUR</span>
-      </div>
-      <div class="cost-line" style="font-size: 0.75rem; color: var(--pico-muted-color);">
-        <span>${item.detail}</span>
+      <div class="camp-cost-item ${item.hasSiblingDiscount ? 'sibling-discount' : ''} ${item.hasEarlyBird ? 'early-bird' : ''}">
+        <div class="camp-cost-header">
+          <div class="camp-cost-info">
+            <div class="camp-cost-name">${item.camp}</div>
+            <div class="camp-cost-people">${item.peopleNames}</div>
+          </div>
+          <div class="camp-cost-right">
+            <span class="camp-cost-price">${item.cost.toFixed(2)} EUR</span>
+            <button class="remove-btn" onclick="Planner.removeCamp(${item.campId})" title="Remove">&times;</button>
+          </div>
+        </div>
+        <div class="camp-cost-detail">${item.detail}</div>
       </div>
     `).join('');
 
     // Add camps without pricing
     if (campsWithoutPrice.length > 0) {
-      html += `<div class="cost-line" style="margin-top: 0.5rem; color: var(--pico-muted-color); font-style: italic;">
-        <span>Price TBD: ${campsWithoutPrice.join(', ')}</span>
-      </div>`;
+      html += campsWithoutPrice.map(item => `
+        <div class="camp-cost-item no-price">
+          <div class="camp-cost-header">
+            <div class="camp-cost-info">
+              <div class="camp-cost-name">${item.camp.name}</div>
+              <div class="camp-cost-people">${item.peopleNames}</div>
+            </div>
+            <div class="camp-cost-right">
+              <span class="camp-cost-price">TBD</span>
+              <button class="remove-btn" onclick="Planner.removeCamp(${item.campId})" title="Remove">&times;</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
 
     container.innerHTML = html;

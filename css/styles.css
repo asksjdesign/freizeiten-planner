@@ -135,61 +135,97 @@ nav {
   color: var(--pico-muted-color);
 }
 
-/* Selected Camps List */
-.selected-camps-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
-.selected-camp-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  background: var(--pico-background-color);
-  border-radius: var(--pico-border-radius);
-  font-size: 0.875rem;
-}
-
-.selected-camp-item .camp-name {
-  font-weight: 500;
-}
-
-.selected-camp-item .camp-people {
-  color: var(--pico-muted-color);
-}
-
-.selected-camp-item button {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
-}
-
 /* Cost Summary */
 .cost-summary {
   background: var(--pico-primary-focus);
 }
 
 #cost-breakdown {
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
-}
-
-.cost-line {
   display: flex;
-  justify-content: space-between;
-  padding: 0.25rem 0;
-  border-bottom: 1px solid var(--pico-muted-border-color);
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
-.cost-line.sibling-discount {
+.camp-cost-item {
+  background: var(--pico-background-color);
+  border-radius: var(--pico-border-radius);
+  padding: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.camp-cost-item.early-bird {
+  border-left: 3px solid #27ae60;
+}
+
+.camp-cost-item.sibling-discount .camp-cost-price {
   color: var(--pico-ins-color);
 }
 
-.cost-line.early-bird {
-  background: rgba(46, 204, 113, 0.1);
+.camp-cost-item.no-price {
+  opacity: 0.7;
+}
+
+.camp-cost-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.camp-cost-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.camp-cost-name {
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.camp-cost-people {
+  color: var(--pico-muted-color);
+  font-size: 0.8rem;
+  margin-top: 0.125rem;
+}
+
+.camp-cost-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.camp-cost-price {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--pico-muted-color);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.25rem;
+  margin: 0;
+  width: auto;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.remove-btn:hover {
+  opacity: 1;
+  color: var(--pico-del-color);
+}
+
+.camp-cost-detail {
+  color: var(--pico-muted-color);
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
 }
 
 /* Early Bird Indicators */
@@ -207,6 +243,8 @@ nav {
 .total-cost {
   font-size: 1.25rem;
   text-align: right;
+  padding-top: 0.5rem;
+  border-top: 2px solid var(--pico-muted-border-color);
 }
 
 /* People Cards */
