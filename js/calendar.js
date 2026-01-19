@@ -46,9 +46,22 @@ const Calendar = {
     try {
       this.camps = await Api.getCamps();
       this.renderCamps();
+      this.jumpToFirstEvent();
     } catch (error) {
       console.error('Failed to load camps:', error);
     }
+  },
+
+  jumpToFirstEvent() {
+    if (this.camps.length === 0) return;
+
+    // Find the earliest camp start date
+    const earliestDate = this.camps.reduce((earliest, camp) => {
+      const startDate = new Date(camp.start_date);
+      return startDate < earliest ? startDate : earliest;
+    }, new Date(this.camps[0].start_date));
+
+    this.instance.gotoDate(earliestDate);
   },
 
   renderCamps(campsToShow = null) {

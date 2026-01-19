@@ -345,12 +345,27 @@ const Planner = {
   loadSelection(selection) {
     // Clear current selections
     this.selections.clear();
+    this.selectedPeopleIds.clear();
+
+    // Handle selections - could be array or object depending on how Xano returns it
+    let selectionsArray = selection.selections;
+    if (selectionsArray && typeof selectionsArray === 'object' && !Array.isArray(selectionsArray)) {
+      // Convert object to array if needed
+      selectionsArray = Object.values(selectionsArray);
+    }
 
     // Rebuild selections from saved data
-    if (selection.selections && Array.isArray(selection.selections)) {
-      selection.selections.forEach(item => {
+    if (selectionsArray && Array.isArray(selectionsArray)) {
+      selectionsArray.forEach(item => {
         const campId = item.freizeit_id;
         const personId = item.person_id;
+
+        // Verify person exists in our people list
+        const personExists = this.people.some(p => p.id === personId);
+        if (!personExists) {
+          console.warn(`Person ID ${personId} not found in people list`);
+          return;
+        }
 
         if (!this.selections.has(campId)) {
           this.selections.set(campId, new Set());
@@ -364,6 +379,9 @@ const Planner = {
 
     this.renderPeopleCheckboxes();
     this.updateUI();
+
+    // Show all camps first, then update selection state
+    Calendar.renderCamps();
     Calendar.updateEventSelection();
 
     // Switch to planner view
