@@ -650,6 +650,11 @@ nav {
   font-size: 0.8rem;
 }
 
+.fc-daygrid-block-event .fc-event-time,
+.fc-daygrid-block-event .fc-event-title {
+  padding: 4px;
+}
+
 .fc .fc-daygrid-day-number,
 .fc .fc-col-header-cell-cushion {
   color: white !important;
