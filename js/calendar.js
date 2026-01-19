@@ -2,6 +2,7 @@
 const Calendar = {
   instance: null,
   camps: [],
+  currentView: 'month',
 
   getSourceClass(source) {
     switch (source) {
@@ -23,7 +24,7 @@ const Calendar = {
       headerToolbar: {
         left: 'prev,next today',
         center: 'title',
-        right: 'dayGridMonth,listMonth'
+        right: ''
       },
       eventClick: (info) => {
         const camp = this.camps.find(c => c.id === parseInt(info.event.id));
@@ -101,5 +102,62 @@ const Calendar = {
   updateEventSelection() {
     // Re-render with current filter and selection state
     this.filterBySelectedPeople();
+    if (this.currentView === 'list') {
+      this.renderCampsList();
+    }
+  },
+
+  showView(view) {
+    this.currentView = view;
+    const calendarEl = document.getElementById('calendar');
+    const listEl = document.getElementById('camps-list');
+    const buttons = document.querySelectorAll('.view-toggle-btn');
+
+    buttons.forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === view);
+    });
+
+    if (view === 'month') {
+      calendarEl.style.display = 'block';
+      listEl.style.display = 'none';
+    } else {
+      calendarEl.style.display = 'none';
+      listEl.style.display = 'block';
+      this.renderCampsList();
+    }
+  },
+
+  renderCampsList() {
+    const container = document.getElementById('camps-list');
+    const eligibleCamps = Planner.getEligibleCamps();
+    const campsToShow = eligibleCamps.length > 0 ? eligibleCamps : this.camps;
+
+    // Sort by start date
+    const sortedCamps = [...campsToShow].sort((a, b) =>
+      new Date(a.start_date) - new Date(b.start_date)
+    );
+
+    if (sortedCamps.length === 0) {
+      container.innerHTML = `<p class="empty-state">${I18n.t('noCamps')}</p>`;
+      return;
+    }
+
+    container.innerHTML = sortedCamps.map(camp => {
+      const startDate = new Date(camp.start_date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+      const endDate = new Date(camp.end_date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' });
+      const isSelected = Planner.isCampSelected(camp.id);
+      const sourceClass = this.getSourceClass(camp.source);
+
+      return `
+        <div class="camp-list-card ${sourceClass} ${isSelected ? 'selected' : ''}" onclick="Planner.showCampModal(Calendar.camps.find(c => c.id === ${camp.id}))">
+          <div class="camp-list-color"></div>
+          <div class="camp-list-content">
+            <div class="camp-list-name">${camp.name}</div>
+            <div class="camp-list-dates">${startDate} – ${endDate}</div>
+          </div>
+          <div class="camp-list-source">${camp.source}</div>
+        </div>
+      `;
+    }).join('');
   }
 };

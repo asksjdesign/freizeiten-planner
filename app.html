@@ -33,7 +33,12 @@
     <section id="view-planner" class="view">
       <div class="planner-layout">
         <div class="calendar-container">
+          <div class="calendar-view-toggle">
+            <button class="view-toggle-btn active" data-view="month" onclick="Calendar.showView('month')">Month</button>
+            <button class="view-toggle-btn" data-view="list" onclick="Calendar.showView('list')">List</button>
+          </div>
           <div id="calendar"></div>
+          <div id="camps-list" class="camps-list" style="display: none;"></div>
         </div>
         <aside class="planner-sidebar">
           <div class="sidebar-section">
